@@ -18,10 +18,8 @@ pub unsafe extern "C" fn _cstart() -> ! {
 
     unsafe {
         // Zero all out the bytes in BSS
-        /*
         let count = &raw const __bss_end as *const u8 as usize - &raw const __bss_start as *const u8 as usize;
         ptr::write_bytes(&raw mut __bss_start as *mut u8, 0, count);
-        */
 
         let PD_CFG2: *mut usize = 0x2000098 as *mut usize;
         let PD_DATA: *mut usize = 0x20000a0 as *mut usize;
