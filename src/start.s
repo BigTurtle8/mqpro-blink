@@ -15,6 +15,7 @@ _start:
 #   li      fp,0            # init fp
 #   la      sp,__stack_top  # init sp (stack grows down)
 
+    /*
 # blink program, onboard PD18 LED
     lui     a0,0x2000       # base address for PB group
     addi    a1,zero,0x1ff   # constant to set PD18 as output
@@ -33,6 +34,10 @@ delay:
     bne     a2,zero,delay   # keep counting down until a2 is zero
 
     j       loop
+    */
+    csrc    mstatus, 1<<3   # global disable interrupts, mstatus.mie = 0
+    lui     sp,0x50000      # init stack at 0x50000000 (grows down)
+    jal     _cstart
 
 hang:
     j       hang
