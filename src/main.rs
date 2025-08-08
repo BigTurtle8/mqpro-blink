@@ -13,7 +13,7 @@ global_asm!(include_str!("start.s"));
 /// For the MQ Pro, zeroes the BSS section, turns on
 /// the blue onboard LED, then calls main.
 #[unsafe(no_mangle)]
-pub fn _cstart() {
+pub fn _cstart() -> ! {
     unsafe extern "C" {
         static mut __text_end: u8;
         static mut __bss_start: u8;
@@ -37,20 +37,23 @@ pub fn _cstart() {
     main();
 }
 
-pub fn main() -> i32 {
+pub fn main() -> ! {
     let pd_data = 0x20000a0 as *mut usize;
 
-    // Should be a 50% duty cycle PWM
+    // Blinks approximately 1 / sec
     unsafe {
-        for _ in 1..100000 {
-            // Turn on PD18
-            ptr::write_volatile(pd_data, 1 << 18);
-            // Turn off PD18
-            ptr::write_volatile(pd_data, 0);
+        loop {
+            for _ in 1..10000000 {
+                // Turn on PD18
+                ptr::write_volatile(pd_data, 1 << 18);
+            }
+
+            for _ in 1..10000000 {
+                // Turn off PD18
+                ptr::write_volatile(pd_data, 0);
+            }
         }
     }
-
-    0
 }
 
 #[panic_handler]
