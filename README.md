@@ -4,6 +4,10 @@ This is mainly an experiment to see if I could run code on the Mango Pi MQ Pro u
 In the end, I was able to get blinking working in this incredibly crude and rudimentary program. I think future experiments will use at least basic crates like `riscv-rt` (https://crates.io/crates/riscv-rt) and `riscv` (https://crates.io/crates/riscv) to have a more solid software foundation.
 
 # How To
+Install:
+- Rust (https://www.rust-lang.org/tools/install)
+- `cargo-binutils` (https://github.com/rust-embedded/cargo-binutils).
+
 To make binary, run:
 ```shell
 cargo objcopy --release -- -O binary mqpro-blink.bin
